@@ -23,7 +23,7 @@ class BTCModel {
 
   factory BTCModel.fromJson(Map<String, dynamic> data) {
     List<double> _points = [];
-    Iterable _pointsJson = data['points'];
+    Iterable _pointsJson = data['points'] ?? [];
     _points =
         _pointsJson.map((e) => double.tryParse(e.toString()) ?? 0).toList();
     return BTCModel(
@@ -35,7 +35,7 @@ class BTCModel {
       volumePrimary24h: data['volumePrimary24h'] ?? 0,
       volumeSecondary24h: data['volumeSecondary24h'] ?? 0,
       points: _points,
-      pointsStartFrom: DateTime.tryParse(data['pointsStartFrom']),
+      pointsStartFrom: DateTime.tryParse(data['pointsStartFrom'] ?? ""),
     );
   }
 }
