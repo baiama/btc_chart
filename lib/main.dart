@@ -1,3 +1,5 @@
+import 'package:btc_chart/presentation/app_colors.dart';
+import 'package:btc_chart/presentation/app_themes.dart';
 import 'package:btc_chart/ui/pages/home/home.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +15,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'BTC Chart',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: AppColors.white,
+        appBarTheme: AppThemes.appBar,
       ),
       home: const HomePage(),
     );
