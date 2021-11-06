@@ -16,7 +16,12 @@ class HomePage extends StatelessWidget {
           title: const Text('BTC/AUD'),
         ),
         body: BlocConsumer<HomePageCubit, HomePageState>(
-          listener: (BuildContext context, state) {},
+          listener: (BuildContext context, state) {
+            if (state is HomePageStateError) {
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text(state.error)));
+            }
+          },
           builder: (BuildContext context, state) {
             return Container();
           },
