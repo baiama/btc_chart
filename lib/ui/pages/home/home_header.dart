@@ -41,56 +41,40 @@ class _HomePageHeader extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 14),
-          Row(
-            children: [
-              Flexible(
-                  flex: 2,
-                  child: _KeyValueText(
-                      title: "High", value: btcModel.high.toString())),
-              const SizedBox(width: 8),
-              Flexible(
-                  flex: 2,
-                  child: _KeyValueText(
-                      title: "Low", value: btcModel.low.toString())),
-              const SizedBox(width: 8),
-              Flexible(
-                flex: 3,
-                child: _KeyValueText(
-                    title: "Vol",
-                    value:
-                        "${btcModel.volumePrimary24h}  \$${btcModel.volumeSecondary24h.truncateToDouble()}"),
-              ),
-            ],
+          RichText(
+            text: TextSpan(
+              text: 'High: ',
+              style: AppTextStyles.reg12,
+              children: [
+                TextSpan(
+                    text: btcModel.high.toString(),
+                    style: AppTextStyles.reg12.copyWith(
+                      color: AppColors.grey,
+                    )),
+                const TextSpan(
+                  text: "  Low: ",
+                  style: AppTextStyles.reg12,
+                ),
+                TextSpan(
+                    text: btcModel.low.toString(),
+                    style: AppTextStyles.reg12.copyWith(
+                      color: AppColors.grey,
+                    )),
+                const TextSpan(
+                  text: "  Vol: ",
+                  style: AppTextStyles.reg12,
+                ),
+                TextSpan(
+                    text:
+                        "${btcModel.volumePrimary24h}  \$${btcModel.volumeSecondary24h.truncateToDouble()}",
+                    style: AppTextStyles.reg12.copyWith(
+                      color: AppColors.grey,
+                    )),
+              ],
+            ),
           ),
         ],
       ),
-    );
-  }
-}
-
-class _KeyValueText extends StatelessWidget {
-  final String title;
-  final String value;
-  const _KeyValueText({Key? key, required this.title, required this.value})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(
-          "$title: ",
-          style: AppTextStyles.reg12,
-        ),
-        Flexible(
-          child: Text(
-            "$value ",
-            style: AppTextStyles.reg12.copyWith(
-              color: AppColors.grey,
-            ),
-          ),
-        ),
-      ],
     );
   }
 }
