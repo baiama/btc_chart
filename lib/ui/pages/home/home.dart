@@ -7,6 +7,8 @@ import 'package:btc_chart/ui/components/loader/circular_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+part 'home_header.dart';
+
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -52,6 +54,15 @@ class _HomePageLoaded extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          _HomePageHeader(
+            btcModel: btcModel,
+          ),
+        ],
+      ),
+    );
   }
 }
