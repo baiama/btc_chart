@@ -20,13 +20,10 @@ class BTCApi extends ApiMap {
     var client = await getClient();
     Response res = await client.get(
         'market/chart?model.range=1d&model.primary=Xbt&model.secondary=Aud');
-    print(res);
-    print(res.data);
-    print(res.statusCode);
     client.close();
     if (res.statusCode == 200) {
       return BTCModel.fromJson(res.data);
     }
-    return null;
+    return "Error please try later";
   }
 }
