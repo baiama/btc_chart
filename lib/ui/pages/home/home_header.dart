@@ -13,7 +13,7 @@ class _HomePageHeader extends StatelessWidget {
         children: [
           RichText(
             text: TextSpan(
-              text: 'Bitcoint |',
+              text: 'Bitcoin |',
               style: AppTextStyles.reg16,
               children: [
                 TextSpan(
