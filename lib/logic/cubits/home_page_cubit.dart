@@ -9,7 +9,7 @@ class HomePageCubit extends Cubit<HomePageState> {
 
   void loadData() async {
     emit(const HomePageStateLoading());
-    var banners = await _api.getClient();
-    emit(HomePageStateLoaded(item: ""));
+    var btc = await _api.getBTCData();
+    // emit(HomePageStateLoaded(item: ""));
   }
 }

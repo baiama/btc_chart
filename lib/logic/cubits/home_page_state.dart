@@ -1,3 +1,4 @@
+import 'package:btc_chart/logic/models/btc_model.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class HomePageState extends Equatable {
@@ -17,8 +18,8 @@ class HomePageStateLoading extends HomePageState {
 }
 
 class HomePageStateLoaded extends HomePageState {
-  final String item;
-  const HomePageStateLoaded({required this.item});
+  final BTCModel btcData;
+  const HomePageStateLoaded({required this.btcData});
   @override
-  List<Object?> get props => [item];
+  List<Object?> get props => [btcData];
 }
