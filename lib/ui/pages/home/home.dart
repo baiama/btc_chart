@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'home_header.dart';
+part 'home_footer.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -61,6 +62,7 @@ class _HomePageLoaded extends StatelessWidget {
           _HomePageHeader(
             btcModel: btcModel,
           ),
+          const _HomePageFooter(),
         ],
       ),
     );
