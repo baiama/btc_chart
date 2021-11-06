@@ -26,6 +26,7 @@ class BTCApi extends ApiMap {
       client.close();
       return ResponseData(data: BTCModel.fromJson(res.data), error: null);
     } on DioError catch (e) {
+      //Handle api errors, duo to the api docs, for now just return toString();
       return ResponseData(data: null, error: e.toString());
     }
   }
