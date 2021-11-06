@@ -17,13 +17,14 @@ class BTCApi extends ApiMap {
   }
 
   Future<dynamic> getBTCData() async {
-    var client = await getClient();
-    Response res = await client.get(
-        'market/chart?model.range=1d&model.primary=Xbt&model.secondary=Aud');
-    client.close();
-    if (res.statusCode == 200) {
+    try {
+      var client = await getClient();
+      Response res = await client.get(
+          'market/chart?model.range=1d&model.primary=Xbt&model.secondary=Aud');
+      client.close();
       return BTCModel.fromJson(res.data);
+    } on DioError catch (e) {
+      return e.toString();
     }
-    return "Error please try later";
   }
 }

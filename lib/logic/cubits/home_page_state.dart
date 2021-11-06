@@ -23,3 +23,10 @@ class HomePageStateLoaded extends HomePageState {
   @override
   List<Object?> get props => [btcData];
 }
+
+class HomePageStateError extends HomePageState {
+  final String error;
+  const HomePageStateError({required this.error});
+  @override
+  List<Object?> get props => [error];
+}
