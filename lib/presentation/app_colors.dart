@@ -7,4 +7,5 @@ class AppColors {
   static const green = Colors.green;
   static const blue = Colors.blue;
   static const orange = Colors.orange;
+  static const chartPathColor = Colors.orangeAccent;
 }

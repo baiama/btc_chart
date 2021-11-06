@@ -6,7 +6,8 @@ class _BtcChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      padding: const EdgeInsets.only(top: 40, bottom: 20),
       height: 350,
       width: double.infinity,
       child: CustomPaint(
