@@ -3,6 +3,7 @@ import 'package:btc_chart/logic/cubits/home_page_state.dart';
 import 'package:btc_chart/logic/models/btc_model.dart';
 import 'package:btc_chart/presentation/app_colors.dart';
 import 'package:btc_chart/presentation/app_text_styles.dart';
+import 'package:btc_chart/ui/components/chart/chart_painter.dart';
 import 'package:btc_chart/ui/components/loader/circular_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

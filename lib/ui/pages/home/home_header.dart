@@ -44,17 +44,17 @@ class _HomePageHeader extends StatelessWidget {
           Row(
             children: [
               Flexible(
-                  flex: 1,
+                  flex: 2,
                   child: _KeyValueText(
                       title: "High", value: btcModel.high.toString())),
               const SizedBox(width: 8),
               Flexible(
-                  flex: 1,
+                  flex: 2,
                   child: _KeyValueText(
                       title: "Low", value: btcModel.low.toString())),
               const SizedBox(width: 8),
               Flexible(
-                flex: 2,
+                flex: 3,
                 child: _KeyValueText(
                     title: "Vol",
                     value:
