@@ -1,4 +1,4 @@
-import 'package:btc_chart/pages/home/home.dart';
+import 'package:btc_chart/ui/pages/home/home.dart';
 import 'package:flutter/material.dart';
 
 void main() {
