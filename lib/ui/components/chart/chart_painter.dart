@@ -107,9 +107,9 @@ class ChartPainter extends CustomPainter {
       maxWidth: size.width,
     );
     var x = offset.dx;
-    if ((x - textPainter.width / 2) < 0) {
+    if ((x - textPainter.width) < 0) {
       x = 0;
-    } else if ((x + textPainter.width / 2) > size.width) {
+    } else if ((x + textPainter.width) > size.width) {
       x = size.width - textPainter.width - 3;
     }
     var y = offset.dy;
