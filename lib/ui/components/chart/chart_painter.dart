@@ -14,22 +14,25 @@ class ChartPainter extends CustomPainter {
     final _high = btcModel.high;
     final _low = btcModel.low;
     final availableHeight = size.height;
-    Path path = Path();
+    final Path path = Path();
+    final Path strokePath = Path();
     for (int i = 0; i < points.length; i++) {
       final dx = (i * step);
       if (i == 0) {
         final p1Height =
             getHeight(availableHeight, points[i] - _low, _high - _low);
         path.moveTo(dx, p1Height);
+        strokePath.moveTo(dx, p1Height);
       }
       if (i < points.length - 1) {
         final p2Height =
             getHeight(availableHeight, points[i + 1] - _low, _high - _low);
         path.lineTo(dx + step, p2Height);
+        strokePath.lineTo(dx + step, p2Height);
       }
     }
-    // path.addRect(Rect.fromLTRB(0, 0, size.width, availableHeight));
     canvas.drawPath(path, pathPaint);
+    canvas.drawPath(strokePath, strokePaint);
   }
 
   double getHeight(double availableHeight, double value, double high) {
@@ -45,6 +48,14 @@ class ChartPainter extends CustomPainter {
     final Paint paint = Paint()
       ..color = AppColors.chartPathColor
       ..style = PaintingStyle.fill;
+    return paint;
+  }
+
+  Paint get strokePaint {
+    final Paint paint = Paint()
+      ..color = AppColors.green
+      ..strokeWidth = 3
+      ..style = PaintingStyle.stroke;
     return paint;
   }
 }
