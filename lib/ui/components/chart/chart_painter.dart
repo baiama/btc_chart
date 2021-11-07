@@ -9,11 +9,16 @@ class ChartPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final Paint pathPaint = Paint()
-      ..color = AppColors.chartPathColor
-      ..style = PaintingStyle.fill;
+    final paint = Paint()
+      ..shader = const RadialGradient(
+        colors: [
+          AppColors.orange,
+          AppColors.white,
+        ],
+      ).createShader(Rect.fromLTRB(0, 0, size.width, size.height));
+
     final Paint strokePaint = Paint()
-      ..color = AppColors.orange
+      ..color = AppColors.chartPathColor
       ..strokeWidth = 10
       ..style = PaintingStyle.stroke;
 
@@ -56,7 +61,7 @@ class ChartPainter extends CustomPainter {
 
     _path.lineTo(size.width, size.height);
     canvas.drawPath(strokePath, strokePaint);
-    canvas.drawPath(_path, pathPaint);
+    canvas.drawPath(_path, paint);
   }
 
   double getHeight(double availableHeight, double value, double high) {
