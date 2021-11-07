@@ -86,7 +86,7 @@ class ChartPainter extends CustomPainter {
 
   double getHeight(
       double yMax, double value, double yHeight, double availableHeight) {
-    return ((yMax - value) / yHeight) * availableHeight;
+    return (((yMax - value) / yHeight) * availableHeight);
   }
 
   @override
