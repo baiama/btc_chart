@@ -10,6 +10,7 @@ class ChartPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    // Gradient paint  for path
     final paint = Paint()
       ..shader = ui.Gradient.linear(
         Offset(size.width / 2, 0),
@@ -19,21 +20,26 @@ class ChartPainter extends CustomPainter {
           AppColors.white,
         ],
       );
-
+    //Paint for stroke path
     final Paint strokePaint = Paint()
       ..color = AppColors.chartPathColor
       ..strokeWidth = 5
       ..style = PaintingStyle.stroke;
-
+    //Path points
     final points = btcModel.points;
+    //_path for drawing gradient area of chart
     final _path = Path();
+    //strokePath for drawing curve path of chart
     final strokePath = Path();
     final startHeight = size.height;
     final yMin = btcModel.low;
     final yMax = btcModel.high;
     final yHeight = yMax - yMin;
-    final xAxisStep = size.width / points.length;
-    var xValue = 0.0;
+    // distance between points
+    final _step = size.width / points.length;
+    //start point of x
+    var _dx = 0.0;
+    //Moving area path to start point
     _path.moveTo(0, size.height);
     for (var i = 0; i < points.length + 1; i++) {
       var value = 0.0;
@@ -44,24 +50,24 @@ class ChartPainter extends CustomPainter {
       }
       final yValue =
           yHeight == 0 ? startHeight : ((yMax - value) / yHeight) * size.height;
-      if (xValue == 0) {
-        strokePath.moveTo(xValue, yValue);
-        _path.lineTo(xValue, yValue);
+      if (_dx == 0) {
+        strokePath.moveTo(_dx, yValue);
+        _path.lineTo(_dx, yValue);
       } else {
         final previousValue = points[i - 1];
-        final xPrevious = xValue - xAxisStep;
+        final xPrevious = _dx - _step;
         final yPrevious = yHeight == 0
             ? startHeight
             : ((yMax - previousValue) / yHeight) * size.height;
-        final controlPointX = xPrevious + (xValue - xPrevious) / 2;
+        final controlPointX = xPrevious + (_dx - xPrevious) / 2;
         strokePath.cubicTo(
-            controlPointX, yPrevious, controlPointX, yValue, xValue, yValue);
+            controlPointX, yPrevious, controlPointX, yValue, _dx, yValue);
         _path.cubicTo(
-            controlPointX, yPrevious, controlPointX, yValue, xValue, yValue);
+            controlPointX, yPrevious, controlPointX, yValue, _dx, yValue);
       }
-      xValue += xAxisStep;
+      _dx += _step;
     }
-
+    //Moving area path to end point
     _path.lineTo(size.width, size.height);
     canvas.drawPath(strokePath, strokePaint);
     canvas.drawPath(_path, paint);
