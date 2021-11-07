@@ -8,7 +8,7 @@ class _BtcChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(top: 40, bottom: 20),
-      height: 350,
+      height: 400,
       width: double.infinity,
       child: CustomPaint(
         painter: ChartPainter(

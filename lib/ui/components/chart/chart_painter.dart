@@ -41,7 +41,7 @@ class ChartPainter extends CustomPainter {
     // distance between points
     final _step = size.width / points.length;
     //start point of x
-    var _dx = 0.0;
+    var x = 0.0;
     //Moving area path to start point
     _path.moveTo(0, size.height);
     for (var i = 0; i < points.length + 1; i++) {
@@ -52,30 +52,35 @@ class ChartPainter extends CustomPainter {
       } else {
         value = points[i];
       }
-      print(value);
-      if (value == yMax || value == yMin) {
-        drawText(canvas, size, value.toString(), AppTextStyles.reg12);
-      }
-      final yValue =
+
+      final y =
           yHeight == 0 ? startHeight : ((yMax - value) / yHeight) * size.height;
-      if (_dx == 0) {
-        strokePath.moveTo(_dx, yValue);
-        _path.lineTo(_dx, yValue);
+      if (value == yMax || value == yMin) {
+        drawText(
+          canvas,
+          size,
+          value.round().toString(),
+          AppTextStyles.reg12,
+          Offset(x, y),
+          value == yMax,
+        );
+      }
+      if (x == 0) {
+        strokePath.moveTo(x, y);
+        _path.lineTo(x, y);
       } else {
         final previousValue = points[i - 1];
-        final xPrevious = _dx - _step;
+        final xPrevious = x - _step;
         final yPrevious = yHeight == 0
             ? startHeight
             : ((yMax - previousValue) / yHeight) * size.height;
         //used for drawing curves if you want more
         //https://en.wikipedia.org/wiki/Bézier_curve
-        final controlPointX = xPrevious + (_dx - xPrevious) / 2;
-        strokePath.cubicTo(
-            controlPointX, yPrevious, controlPointX, yValue, _dx, yValue);
-        _path.cubicTo(
-            controlPointX, yPrevious, controlPointX, yValue, _dx, yValue);
+        final controlPointX = xPrevious + (x - xPrevious) / 2;
+        strokePath.cubicTo(controlPointX, yPrevious, controlPointX, y, x, y);
+        _path.cubicTo(controlPointX, yPrevious, controlPointX, y, x, y);
       }
-      _dx += _step;
+      x += _step;
     }
     //Moving area path to end point
     _path.lineTo(size.width, size.height);
@@ -92,7 +97,8 @@ class ChartPainter extends CustomPainter {
     return false;
   }
 
-  void drawText(Canvas canvas, Size size, String text, TextStyle textStyle) {
+  void drawText(Canvas canvas, Size size, String text, TextStyle textStyle,
+      Offset offset, bool max) {
     final textSpan = TextSpan(
       text: text,
       style: textStyle,
@@ -105,10 +111,13 @@ class ChartPainter extends CustomPainter {
       minWidth: 0,
       maxWidth: size.width,
     );
-    final xCenter = (size.width - textPainter.width) / 2;
-    final yCenter = (size.height - textPainter.height) / 2;
-    final offset = Offset(xCenter, yCenter);
+    // final offset = Offset(xCenter, yCenter);
     print(offset);
+    var x = offset.dx - textPainter.width / 2;
+    print(x);
+    if (x < 0) {
+      x = 5;
+    }
     textPainter.paint(canvas, offset);
   }
 }
