@@ -18,7 +18,8 @@ class ChartPainter extends CustomPainter {
       ..style = PaintingStyle.stroke;
 
     final points = btcModel.points;
-    final path = Path();
+    // final path = Path();
+    final strokePath = Path();
     final startHeight = 0.5 * size.height;
     final yMin = btcModel.low;
     final yMax = btcModel.high;
@@ -30,7 +31,7 @@ class ChartPainter extends CustomPainter {
       final yValue =
           yHeight == 0 ? startHeight : ((yMax - value) / yHeight) * size.height;
       if (xValue == 0) {
-        path.moveTo(xValue, yValue);
+        strokePath.moveTo(xValue, yValue);
       } else {
         final previousValue = points[i - 1];
         final xPrevious = xValue - xAxisStep;
@@ -38,12 +39,12 @@ class ChartPainter extends CustomPainter {
             ? startHeight
             : ((yMax - previousValue) / yHeight) * size.height;
         final controlPointX = xPrevious + (xValue - xPrevious) / 2;
-        path.cubicTo(
+        strokePath.cubicTo(
             controlPointX, yPrevious, controlPointX, yValue, xValue, yValue);
       }
       xValue += xAxisStep;
     }
-    canvas.drawPath(path, strokePaint);
+    canvas.drawPath(strokePath, strokePaint);
   }
 
   double getHeight(double availableHeight, double value, double high) {
