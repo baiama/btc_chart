@@ -48,8 +48,9 @@ class ChartPainter extends CustomPainter {
     _path.moveTo(0, size.height);
     for (var i = 0; i < points.length; i++) {
       final value = points[i];
-      final y =
-          yHeight == 0 ? startHeight : ((yMax - value) / yHeight) * size.height;
+      final y = yHeight == 0
+          ? startHeight
+          : getHeight(yMax, value, yHeight, size.height);
       if (value == yMax || value == yMin) {
         drawText(
           canvas,
@@ -68,7 +69,7 @@ class ChartPainter extends CustomPainter {
         final xPrevious = x - _step;
         final yPrevious = yHeight == 0
             ? startHeight
-            : ((yMax - previousValue) / yHeight) * size.height;
+            : getHeight(yMax, previousValue, yHeight, size.height);
         //used for drawing curves if you want more
         //https://en.wikipedia.org/wiki/Bézier_curve
         final controlPointX = xPrevious + (x - xPrevious) / 2;
@@ -83,8 +84,9 @@ class ChartPainter extends CustomPainter {
     canvas.drawPath(_path, paint);
   }
 
-  double getHeight(double availableHeight, double value, double high) {
-    return availableHeight - (availableHeight * value) / high;
+  double getHeight(
+      double yMax, double value, double yHeight, double availableHeight) {
+    return ((yMax - value) / yHeight) * availableHeight;
   }
 
   @override
