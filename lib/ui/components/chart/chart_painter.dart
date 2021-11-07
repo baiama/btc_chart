@@ -23,11 +23,9 @@ class ChartPainter extends CustomPainter {
       if (i != points.length - 1) {
         final p2Height =
             getHeight(availableHeight, points[i + 1] - _low, _high - _low);
-        // path.lineTo(dx + step, p2Height);
-        path.arcToPoint(Offset(dx + step, p2Height),
-            radius: Radius.circular(90));
+        path.lineTo(dx + step, p2Height);
       } else {
-        path.arcToPoint(Offset(dx + step, p1Height));
+        path.lineTo(dx + step, p1Height);
       }
     }
     // path.addRect(Rect.fromLTRB(0, 0, size.width, availableHeight));
