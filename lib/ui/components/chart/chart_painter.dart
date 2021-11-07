@@ -11,22 +11,31 @@ class ChartPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final points = btcModel.points;
     final step = size.width / points.length;
-    final max = btcModel.high;
+    final _high = btcModel.high;
+    final _low = btcModel.low;
+    final availableHeight = size.height;
     Path path = Path();
-    for (int i = 0; i < points.length - 1; i++) {
-      var dx = (i * step);
-      final p2Height = getHeight(size.height, points[i + 1], max);
-      final p1Height = getHeight(size.height, points[i], max);
-      print("ggwp $dx ${dx + step} ${points[i]} $p1Height $p2Height");
+    for (int i = 0; i < points.length; i++) {
+      final dx = (i * step);
+      final p1Height =
+          getHeight(availableHeight, points[i] - _low, _high - _low);
       path.moveTo(dx, p1Height);
-      path.lineTo(dx + step, p2Height);
+      if (i != points.length - 1) {
+        final p2Height =
+            getHeight(availableHeight, points[i + 1] - _low, _high - _low);
+        // path.lineTo(dx + step, p2Height);
+        path.arcToPoint(Offset(dx + step, p2Height),
+            radius: Radius.circular(90));
+      } else {
+        path.arcToPoint(Offset(dx + step, p1Height));
+      }
     }
+    // path.addRect(Rect.fromLTRB(0, 0, size.width, availableHeight));
     canvas.drawPath(path, pathPaint);
   }
 
-  double getHeight(
-      double availableHeight, double altitude, double maxAltitude) {
-    return availableHeight - (availableHeight * altitude) / maxAltitude;
+  double getHeight(double availableHeight, double value, double high) {
+    return availableHeight - (availableHeight * value) / high;
   }
 
   @override
