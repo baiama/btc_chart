@@ -38,21 +38,16 @@ class ChartPainter extends CustomPainter {
     final yMax =
         points.reduce((value, element) => value > element ? value : element);
     final yHeight = yMax - yMin;
+
     // distance between points
-    final _step = size.width / points.length;
+    final _step = size.width / points.length +
+        (size.width / points.length) / points.length;
     //start point of x
     var x = 0.0;
     //Moving area path to start point
     _path.moveTo(0, size.height);
-    for (var i = 0; i < points.length + 1; i++) {
-      var value = 0.0;
-      if (i == points.length) {
-        //for drawing last point
-        value = points[i - 1];
-      } else {
-        value = points[i];
-      }
-
+    for (var i = 0; i < points.length; i++) {
+      final value = points[i];
       final y =
           yHeight == 0 ? startHeight : ((yMax - value) / yHeight) * size.height;
       if (value == yMax || value == yMin) {
@@ -111,12 +106,11 @@ class ChartPainter extends CustomPainter {
       minWidth: 0,
       maxWidth: size.width,
     );
-    var x = offset.dx - textPainter.width / 2;
-    if (x < 0) {
+    var x = offset.dx;
+    if ((x - textPainter.width / 2) < 0) {
       x = 0;
-    }
-    if (x > size.width) {
-      x = size.width;
+    } else if ((x + textPainter.width / 2) > size.width) {
+      x = size.width - textPainter.width - 3;
     }
     var y = offset.dy;
     if (max) {
