@@ -1,6 +1,7 @@
 import 'package:btc_chart/logic/models/btc_model.dart';
 import 'package:btc_chart/presentation/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'dart:ui' as ui;
 
 class ChartPainter extends CustomPainter {
   final BTCModel btcModel;
@@ -10,16 +11,18 @@ class ChartPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..shader = const RadialGradient(
-        colors: [
-          AppColors.orange,
+      ..shader = ui.Gradient.linear(
+        Offset(size.width / 2, 0),
+        Offset(size.width / 2, size.height),
+        [
+          AppColors.chartPathColor,
           AppColors.white,
         ],
-      ).createShader(Rect.fromLTRB(0, 0, size.width, size.height));
+      );
 
     final Paint strokePaint = Paint()
       ..color = AppColors.chartPathColor
-      ..strokeWidth = 10
+      ..strokeWidth = 5
       ..style = PaintingStyle.stroke;
 
     final points = btcModel.points;
