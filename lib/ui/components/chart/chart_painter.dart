@@ -17,15 +17,15 @@ class ChartPainter extends CustomPainter {
     Path path = Path();
     for (int i = 0; i < points.length; i++) {
       final dx = (i * step);
-      final p1Height =
-          getHeight(availableHeight, points[i] - _low, _high - _low);
-      path.moveTo(dx, p1Height);
-      if (i != points.length - 1) {
+      if (i == 0) {
+        final p1Height =
+            getHeight(availableHeight, points[i] - _low, _high - _low);
+        path.moveTo(dx, p1Height);
+      }
+      if (i < points.length - 1) {
         final p2Height =
             getHeight(availableHeight, points[i + 1] - _low, _high - _low);
         path.lineTo(dx + step, p2Height);
-      } else {
-        path.lineTo(dx + step, p1Height);
       }
     }
     // path.addRect(Rect.fromLTRB(0, 0, size.width, availableHeight));
@@ -42,9 +42,9 @@ class ChartPainter extends CustomPainter {
   }
 
   Paint get pathPaint {
-    var paint = Paint()..color = AppColors.chartPathColor;
-    paint.strokeWidth = 3;
-    paint.style = PaintingStyle.stroke;
+    final Paint paint = Paint()
+      ..color = AppColors.chartPathColor
+      ..style = PaintingStyle.fill;
     return paint;
   }
 }
