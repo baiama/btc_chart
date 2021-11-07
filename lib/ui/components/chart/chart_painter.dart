@@ -16,6 +16,8 @@ class ChartPainter extends CustomPainter {
     final availableHeight = size.height;
     final Path path = Path();
     final Path strokePath = Path();
+    final Path cubit = Path();
+
     for (int i = 0; i < points.length; i++) {
       final dx = (i * step);
       if (i == 0) {
@@ -23,16 +25,20 @@ class ChartPainter extends CustomPainter {
             getHeight(availableHeight, points[i] - _low, _high - _low);
         path.moveTo(dx, p1Height);
         strokePath.moveTo(dx, p1Height);
+        cubit.moveTo(dx, p1Height);
       }
       if (i < points.length - 1) {
         final p2Height =
             getHeight(availableHeight, points[i + 1] - _low, _high - _low);
         path.lineTo(dx + step, p2Height);
         strokePath.lineTo(dx + step, p2Height);
+        cubit.cubicTo(dx + step / 4, p2Height + step, dx + step / 3,
+            p2Height + step, dx + step, p2Height);
       }
     }
-    canvas.drawPath(path, pathPaint);
+    // canvas.drawPath(path, pathPaint);
     canvas.drawPath(strokePath, strokePaint);
+    canvas.drawPath(cubit, cubicPaint);
   }
 
   double getHeight(double availableHeight, double value, double high) {
@@ -53,7 +59,15 @@ class ChartPainter extends CustomPainter {
 
   Paint get strokePaint {
     final Paint paint = Paint()
-      ..color = AppColors.green
+      ..color = AppColors.orange
+      ..strokeWidth = 3
+      ..style = PaintingStyle.stroke;
+    return paint;
+  }
+
+  Paint get cubicPaint {
+    final Paint paint = Paint()
+      ..color = AppColors.blue
       ..strokeWidth = 3
       ..style = PaintingStyle.stroke;
     return paint;
