@@ -9,20 +9,19 @@ class ChartPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final filteredCoords = btcModel.points;
-    final step = size.width / filteredCoords.length;
+    final points = btcModel.points;
+    final step = size.width / points.length;
     final max = btcModel.high;
-    for (int i = 0; i < filteredCoords.length - 1; i++) {
+    Path path = Path();
+    for (int i = 0; i < points.length - 1; i++) {
       var dx = (i * step);
-      final p2Height = getHeight(size.height, filteredCoords[i + 1], max);
-      final p2 = Offset(dx + step, p2Height);
-      final p1Height = getHeight(size.height, filteredCoords[i], max);
-      print("ggwp $dx ${dx + step} ${filteredCoords[i]} $p1Height $p2Height");
-      Path path = Path();
+      final p2Height = getHeight(size.height, points[i + 1], max);
+      final p1Height = getHeight(size.height, points[i], max);
+      print("ggwp $dx ${dx + step} ${points[i]} $p1Height $p2Height");
       path.moveTo(dx, p1Height);
-      path.arcToPoint(p2, radius: const Radius.circular(250));
-      canvas.drawPath(path, pathPaint);
+      path.lineTo(dx + step, p2Height);
     }
+    canvas.drawPath(path, pathPaint);
   }
 
   double getHeight(
