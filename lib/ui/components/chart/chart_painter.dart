@@ -111,10 +111,7 @@ class ChartPainter extends CustomPainter {
       minWidth: 0,
       maxWidth: size.width,
     );
-    // final offset = Offset(xCenter, yCenter);
-    print(offset);
     var x = offset.dx - textPainter.width / 2;
-    print(x);
     if (x < 0) {
       x = 0;
     }
