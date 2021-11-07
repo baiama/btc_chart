@@ -14,24 +14,31 @@ class ChartPainter extends CustomPainter {
       ..style = PaintingStyle.fill;
     final Paint strokePaint = Paint()
       ..color = AppColors.orange
-      ..strokeWidth = 3
+      ..strokeWidth = 10
       ..style = PaintingStyle.stroke;
 
     final points = btcModel.points;
-    // final path = Path();
+    final _path = Path();
     final strokePath = Path();
-    final startHeight = 0.5 * size.height;
+    final startHeight = size.height;
     final yMin = btcModel.low;
     final yMax = btcModel.high;
     final yHeight = yMax - yMin;
     final xAxisStep = size.width / points.length;
     var xValue = 0.0;
-    for (var i = 0; i < points.length; i++) {
-      final value = points[i];
+    _path.moveTo(0, size.height);
+    for (var i = 0; i < points.length + 1; i++) {
+      var value = 0.0;
+      if (i == points.length) {
+        value = points[i - 1];
+      } else {
+        value = points[i];
+      }
       final yValue =
           yHeight == 0 ? startHeight : ((yMax - value) / yHeight) * size.height;
       if (xValue == 0) {
         strokePath.moveTo(xValue, yValue);
+        _path.lineTo(xValue, yValue);
       } else {
         final previousValue = points[i - 1];
         final xPrevious = xValue - xAxisStep;
@@ -41,10 +48,15 @@ class ChartPainter extends CustomPainter {
         final controlPointX = xPrevious + (xValue - xPrevious) / 2;
         strokePath.cubicTo(
             controlPointX, yPrevious, controlPointX, yValue, xValue, yValue);
+        _path.cubicTo(
+            controlPointX, yPrevious, controlPointX, yValue, xValue, yValue);
       }
       xValue += xAxisStep;
     }
+
+    _path.lineTo(size.width, size.height);
     canvas.drawPath(strokePath, strokePaint);
+    canvas.drawPath(_path, pathPaint);
   }
 
   double getHeight(double availableHeight, double value, double high) {
