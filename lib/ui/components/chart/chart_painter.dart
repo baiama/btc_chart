@@ -1,5 +1,6 @@
 import 'package:btc_chart/logic/models/btc_model.dart';
 import 'package:btc_chart/presentation/app_colors.dart';
+import 'package:btc_chart/presentation/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 
@@ -32,8 +33,10 @@ class ChartPainter extends CustomPainter {
     //strokePath for drawing curve path of chart
     final strokePath = Path();
     final startHeight = size.height;
-    final yMin = btcModel.low;
-    final yMax = btcModel.high;
+    final yMin =
+        points.reduce((value, element) => value < element ? value : element);
+    final yMax =
+        points.reduce((value, element) => value > element ? value : element);
     final yHeight = yMax - yMin;
     // distance between points
     final _step = size.width / points.length;
@@ -48,6 +51,10 @@ class ChartPainter extends CustomPainter {
         value = points[i - 1];
       } else {
         value = points[i];
+      }
+      print(value);
+      if (value == yMax || value == yMin) {
+        drawText(canvas, size, value.toString(), AppTextStyles.reg12);
       }
       final yValue =
           yHeight == 0 ? startHeight : ((yMax - value) / yHeight) * size.height;
@@ -83,5 +90,25 @@ class ChartPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
     return false;
+  }
+
+  void drawText(Canvas canvas, Size size, String text, TextStyle textStyle) {
+    final textSpan = TextSpan(
+      text: text,
+      style: textStyle,
+    );
+    final textPainter = TextPainter(
+      text: textSpan,
+      textDirection: TextDirection.ltr,
+    );
+    textPainter.layout(
+      minWidth: 0,
+      maxWidth: size.width,
+    );
+    final xCenter = (size.width - textPainter.width) / 2;
+    final yCenter = (size.height - textPainter.height) / 2;
+    final offset = Offset(xCenter, yCenter);
+    print(offset);
+    textPainter.paint(canvas, offset);
   }
 }
