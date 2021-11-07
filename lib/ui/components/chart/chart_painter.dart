@@ -44,6 +44,7 @@ class ChartPainter extends CustomPainter {
     for (var i = 0; i < points.length + 1; i++) {
       var value = 0.0;
       if (i == points.length) {
+        //for drawing last point
         value = points[i - 1];
       } else {
         value = points[i];
@@ -59,6 +60,8 @@ class ChartPainter extends CustomPainter {
         final yPrevious = yHeight == 0
             ? startHeight
             : ((yMax - previousValue) / yHeight) * size.height;
+        //used for drawing curves if you want more
+        //https://en.wikipedia.org/wiki/Bézier_curve
         final controlPointX = xPrevious + (_dx - xPrevious) / 2;
         strokePath.cubicTo(
             controlPointX, yPrevious, controlPointX, yValue, _dx, yValue);
