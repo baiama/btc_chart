@@ -9,36 +9,41 @@ class ChartPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final points = btcModel.points;
-    final step = size.width / points.length;
-    final _high = btcModel.high;
-    final _low = btcModel.low;
-    final availableHeight = size.height;
-    final Path path = Path();
-    final Path strokePath = Path();
-    final Path cubit = Path();
+    final Paint pathPaint = Paint()
+      ..color = AppColors.chartPathColor
+      ..style = PaintingStyle.fill;
+    final Paint strokePaint = Paint()
+      ..color = AppColors.orange
+      ..strokeWidth = 3
+      ..style = PaintingStyle.stroke;
 
-    for (int i = 0; i < points.length; i++) {
-      final dx = (i * step);
-      if (i == 0) {
-        final p1Height =
-            getHeight(availableHeight, points[i] - _low, _high - _low);
-        path.moveTo(dx, p1Height);
-        strokePath.moveTo(dx, p1Height);
-        cubit.moveTo(dx, p1Height);
+    final points = btcModel.points;
+    final path = Path();
+    final startHeight = 0.5 * size.height;
+    final yMin = btcModel.low;
+    final yMax = btcModel.high;
+    final yHeight = yMax - yMin;
+    final xAxisStep = size.width / points.length;
+    var xValue = 0.0;
+    for (var i = 0; i < points.length; i++) {
+      final value = points[i];
+      final yValue =
+          yHeight == 0 ? startHeight : ((yMax - value) / yHeight) * size.height;
+      if (xValue == 0) {
+        path.moveTo(xValue, yValue);
+      } else {
+        final previousValue = points[i - 1];
+        final xPrevious = xValue - xAxisStep;
+        final yPrevious = yHeight == 0
+            ? startHeight
+            : ((yMax - previousValue) / yHeight) * size.height;
+        final controlPointX = xPrevious + (xValue - xPrevious) / 2;
+        path.cubicTo(
+            controlPointX, yPrevious, controlPointX, yValue, xValue, yValue);
       }
-      if (i < points.length - 1) {
-        final p2Height =
-            getHeight(availableHeight, points[i + 1] - _low, _high - _low);
-        path.lineTo(dx + step, p2Height);
-        strokePath.lineTo(dx + step, p2Height);
-        cubit.cubicTo(dx + step / 4, p2Height + step, dx + step / 3,
-            p2Height + step, dx + step, p2Height);
-      }
+      xValue += xAxisStep;
     }
-    // canvas.drawPath(path, pathPaint);
-    canvas.drawPath(strokePath, strokePaint);
-    canvas.drawPath(cubit, cubicPaint);
+    canvas.drawPath(path, strokePaint);
   }
 
   double getHeight(double availableHeight, double value, double high) {
@@ -48,28 +53,5 @@ class ChartPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
     return false;
-  }
-
-  Paint get pathPaint {
-    final Paint paint = Paint()
-      ..color = AppColors.chartPathColor
-      ..style = PaintingStyle.fill;
-    return paint;
-  }
-
-  Paint get strokePaint {
-    final Paint paint = Paint()
-      ..color = AppColors.orange
-      ..strokeWidth = 3
-      ..style = PaintingStyle.stroke;
-    return paint;
-  }
-
-  Paint get cubicPaint {
-    final Paint paint = Paint()
-      ..color = AppColors.blue
-      ..strokeWidth = 3
-      ..style = PaintingStyle.stroke;
-    return paint;
   }
 }
