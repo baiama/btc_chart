@@ -116,7 +116,7 @@ class ChartPainter extends CustomPainter {
     if (max) {
       y = y - 20;
     } else {
-      y = y + 3;
+      y = y + 10;
     }
     Offset textOffset = Offset(x, y);
     textPainter.paint(canvas, textOffset);
