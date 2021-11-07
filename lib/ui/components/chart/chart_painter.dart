@@ -116,8 +116,18 @@ class ChartPainter extends CustomPainter {
     var x = offset.dx - textPainter.width / 2;
     print(x);
     if (x < 0) {
-      x = 5;
+      x = 0;
     }
-    textPainter.paint(canvas, offset);
+    if (x > size.width) {
+      x = size.width;
+    }
+    var y = offset.dy;
+    if (max) {
+      y = y - 20;
+    } else {
+      y = y + 3;
+    }
+    Offset textOffset = Offset(x, y);
+    textPainter.paint(canvas, textOffset);
   }
 }
